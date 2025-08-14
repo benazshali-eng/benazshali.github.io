@@ -81,6 +81,9 @@
     .footgrid{display:grid;gap:16px;align-items:center}
     @media(min-width:760px){.footgrid{grid-template-columns:1fr auto}}
     .sr-only{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+    /* toast */
+    .toast{position:fixed;right:18px;bottom:18px;background:#0f1f3a;border:1px solid rgba(255,255,255,.12);padding:12px 14px;border-radius:12px;color:#cfe1ff;box-shadow:0 10px 30px rgba(0,0,0,.35);opacity:0;transform:translateY(10px);transition:.25s}
+    .toast.show{opacity:1;transform:translateY(0)}
   </style>
 </head>
 <body>
@@ -114,7 +117,6 @@
         </p>
         <div class="cta">
           <a class="btn primary" href="#contact" aria-label="Jump to contact form">
-            <!-- mail icon -->
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zm0 0l8 6 8-6" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             Let’s Connect
           </a>
@@ -316,18 +318,21 @@
             <p class="muted">Preferred: email or LinkedIn. Based in Toronto (EST).</p>
             <p>
               📧 <a href="mailto:benazshali@gmail.com">benazshali@gmail.com</a><br/>
-              🔗 <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer noopener">LinkedIn</a>
+              🔗 <a href="https://www.linkedin.com/in/benazshali/" target="_blank" rel="noreferrer noopener">LinkedIn</a>
             </p>
           </div>
           <div class="card">
-            <form action="mailto:benazshali@gmail.com" method="post" enctype="text/plain">
+            <!-- Mailto-composer (reliable on GitHub Pages) -->
+            <form id="contactForm" onsubmit="return false;">
               <label class="sr-only" for="name">Name</label>
               <input id="name" name="name" placeholder="Your name" required style="width:100%;margin:6px 0 10px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#0c1730;color:#fff" />
               <label class="sr-only" for="email">Email</label>
               <input id="email" name="email" type="email" placeholder="Your email" required style="width:100%;margin:6px 0 10px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#0c1730;color:#fff" />
               <label class="sr-only" for="msg">Message</label>
               <textarea id="msg" name="message" placeholder="Quick note…" rows="5" style="width:100%;margin:6px 0 10px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#0c1730;color:#fff"></textarea>
-              <button class="btn primary" type="submit">Send Message</button>
+              <button class="btn primary" id="sendBtn" type="button">Send Message</button>
+              <div id="toast" class="toast" role="status" aria-live="polite">Opening your email app…</div>
+              <p class="muted" style="margin-top:10px;font-size:12px">If a mail app doesn’t open, email me directly at <a href="mailto:benazshali@gmail.com">benazshali@gmail.com</a>.</p>
             </form>
           </div>
         </div>
@@ -354,46 +359,24 @@
         }
       });
     });
+
+    // Contact: compose a mailto from form fields (works on GitHub Pages)
+    const btn = document.getElementById('sendBtn');
+    const toast = document.getElementById('toast');
+    if(btn){
+      btn.addEventListener('click', ()=>{
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const msg = document.getElementById('msg').value.trim();
+        const subject = encodeURIComponent(`Website contact from ${name || 'Visitor'}`);
+        const body = encodeURIComponent(`${msg}\n\n—\nFrom: ${name}\nEmail: ${email}`);
+        const href = `mailto:benazshali@gmail.com?subject=${subject}&body=${body}`;
+        // show a small toast for feedback
+        if(toast){ toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'), 2500); }
+        // open default mail app
+        window.location.href = href;
+      });
+    }
   </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <!-- head content remains unchanged -->
-</head>
-<body>
-  <!-- body content above contact remains unchanged -->
-
-    <!-- CONTACT -->
-    <section id="contact">
-      <div class="container">
-        <h3>Contact</h3>
-        <div class="grid cols-2">
-          <div class="card">
-            <p>Interested in collaborating or discussing a role? I’d love to connect.</p>
-            <p class="muted">Preferred: email or LinkedIn. Based in Toronto (EST).</p>
-            <p>
-              📧 <a href="mailto:benazshali@gmail.com">benazshali@gmail.com</a><br/>
-              🔗 <a href="https://www.linkedin.com/in/benazshali/" target="_blank" rel="noreferrer noopener">LinkedIn</a>
-            </p>
-          </div>
-          <div class="card">
-            <form action="mailto:benazshali@gmail.com" method="post" enctype="text/plain">
-              <label class="sr-only" for="name">Name</label>
-              <input id="name" name="name" placeholder="Your name" required style="width:100%;margin:6px 0 10px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#0c1730;color:#fff" />
-              <label class="sr-only" for="email">Email</label>
-              <input id="email" name="email" type="email" placeholder="Your email" required style="width:100%;margin:6px 0 10px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#0c1730;color:#fff" />
-              <label class="sr-only" for="msg">Message</label>
-              <textarea id="msg" name="message" placeholder="Quick note…" rows="5" style="width:100%;margin:6px 0 10px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#0c1730;color:#fff"></textarea>
-              <button class="btn primary" type="submit">Send Message</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- footer remains unchanged -->
 </body>
 </html>
