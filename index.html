@@ -380,3 +380,47 @@
   </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Benaz Shali — Strategic QA Leader</title>
+  <meta name="description" content="Strategic QA leader with 15+ years in quality engineering, test strategy, and agile delivery. Portfolio, experience, skills, certifications." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Existing styles remain unchanged */
+  </style>
+</head>
+<body>
+  <header>
+    <!-- Header content unchanged -->
+  </header>
+
+  <main>
+    <!-- HERO, ABOUT, EXPERIENCE, SKILLS, CERTS, ACHIEVEMENTS sections unchanged -->
+  </main>
+
+  <footer>
+    <div class="container footgrid">
+      <div>© <span id="year"></span> Benaz Shali • Built with HTML & CSS</div>
+      <div class="muted">Theme: Corporate blue & gold</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const id=a.getAttribute('href');
+        if(id && id.length>1){
+          const el=document.querySelector(id);
+          if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'});}
+        }
+      });
+    });
+  </script>
+</body>
+</html>
